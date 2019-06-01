@@ -1,0 +1,21 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+  - url: /static
+    static_dir: static
+
+  - url: /icons
+    static_dir: icons
+
+  - url: /sw.js
+    static_files: sw.js
+    upload: sw.js
+    secure: always
+
+  - url: /.*
+    static_files: index.html
+    expiration: '0d'
+    upload: index.html
+    secure: always

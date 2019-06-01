@@ -1,0 +1,42 @@
+@import '../../css/base';
+
+.fontchooser {
+  font-family: inherit;
+
+  &__complete {
+
+    border: rem(1px) solid #ccc;
+
+    width: 100%;
+  }
+
+  &__variants {
+    list-style: none;
+
+    padding: 0;
+    margin: 0;
+
+    overflow: auto;
+
+    max-height: rem(100px);
+
+    border: rem(1px) solid #ccc;
+    border-top: none;
+
+    button {
+      display: block;
+      width: 100%;
+
+      padding: rem(10px);
+      margin: 0;
+
+      text-align: left;
+
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(0,0,0,0.25);
+      }
+    }
+  }
+}
