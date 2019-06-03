@@ -56,11 +56,8 @@ class WordDisplay extends React.Component {
 
     for (let i = 1; i <= Math.abs(x); i++) {
       let perc = i / Math.abs(x);
-      console.log(x * perc, y * perc);
       str.push(`${x * perc}px ${y * perc}px red`);
     }
-
-    console.log(x);
 
     return str.join(', ');
   }

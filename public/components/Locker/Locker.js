@@ -18,6 +18,14 @@ class Locker extends React.Component {
 
   toggle = () => {
     this.props.onChange(!this.props.locked);
+
+    if (!this.props.locked) {
+      document.body.requestFullscreen().catch(err => {
+        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
   }
 
   setRef = ref => {
@@ -28,13 +36,17 @@ class Locker extends React.Component {
     }
   }
 
+  preventDefault = e => {
+    if (!e.target.contains(this.ref) && this.props.locked) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  }
+
   addEventListeners() {
-    document.addEventListener('click', e => {
-      if (!e.target.contains(this.ref) && this.props.locked) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-      }
-    });
+    document.addEventListener('click', this.preventDefault);
+    document.ontouchmove = this.preventDefault;
+    document.addEventListener('wheel', this.preventDefault, {passive: false});
   }
 
   render() {
