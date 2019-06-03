@@ -11,6 +11,35 @@ import classNames from 'classnames';
 // CSS, Requires
 import "./Locker.scss";
 
+const _toggleFullScreen = function _toggleFullScreen() {
+  if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement) {
+      if (document.cancelFullScreen) {
+          document.cancelFullScreen();
+      } else {
+          if (document.mozCancelFullScreen) {
+              document.mozCancelFullScreen();
+          } else {
+              if (document.webkitCancelFullScreen) {
+                  document.webkitCancelFullScreen();
+              }
+          }
+      }
+  } else {
+      const _element = document.documentElement;
+      if (_element.requestFullscreen) {
+          _element.requestFullscreen();
+      } else {
+          if (_element.mozRequestFullScreen) {
+              _element.mozRequestFullScreen();
+          } else {
+              if (_element.webkitRequestFullscreen) {
+                  _element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+              }
+          }
+      }
+  }
+};
+
 class Locker extends React.Component {
   static propTypes = {
     className: PropTypes.string
@@ -18,14 +47,8 @@ class Locker extends React.Component {
 
   toggle = () => {
     this.props.onChange(!this.props.locked);
-
-    if (!this.props.locked) {
-      document.body.requestFullscreen().catch(err => {
-        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-      });
-    } else {
-      document.exitFullscreen();
-    }
+    
+    _toggleFullScreen();
   }
 
   setRef = ref => {
