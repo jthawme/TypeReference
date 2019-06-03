@@ -51,17 +51,44 @@ class WordDisplay extends React.Component {
     return style.trim() != '' ? style : 'normal';
   }
 
+  getTextShadow(x, y) {
+    let str = [];
+
+    for (let i = 1; i <= Math.abs(x); i++) {
+      let perc = i / Math.abs(x);
+      console.log(x * perc, y * perc);
+      str.push(`${x * perc}px ${y * perc}px red`);
+    }
+
+    console.log(x);
+
+    return str.join(', ');
+  }
+
   render() {
-    const { className, font, size, text, align, lineHeight } = this.props;
+    const { className, font, size, text, align, lineHeight, letterSpacing, textShadowX, textShadowY } = this.props;
 
     const cls = classNames(
       className,
       'worddisplay'
     );
 
+    console.log(this.getTextShadow(textShadowX, textShadowY));
+
+    const style = {
+      textAlign: align,
+      lineHeight,
+      letterSpacing: `${letterSpacing}px`,
+      textShadow: this.getTextShadow(textShadowX, textShadowY)
+    };
+
     return (
-      <div className={cls} style={{ textAlign: align, lineHeight }}>
-        <div style={this.getStyle(font, size)}>{ text.split('\n').map((t, index) => <span key={index}>{ t }</span>) }</div>
+      <div className={cls} style={style}>
+        <div style={this.getStyle(font, size)}>{
+          text
+            .split('\n')
+            .map((t, index) => <span key={index}>{ t }</span>)
+        }</div>
       </div>
     );
   }

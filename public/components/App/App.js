@@ -12,6 +12,7 @@ import Helmet from 'react-helmet';
 import FontChooser from '../FontChooser/FontChooser';
 import FontLoader from '../FontLoader/FontLoader';
 import WordDisplay from '../WordDisplay/WordDisplay';
+import Locker from '../Locker/Locker';
 
 // CSS, Requires
 import metaJson from '../../../context/meta.json';
@@ -23,6 +24,7 @@ class App extends React.Component {
   };
 
   state = {
+    locked: false,
     loading: false,
 
     font: {
@@ -32,11 +34,15 @@ class App extends React.Component {
     size: 40,
     align: 'center',
     lineHeight: 1.6,
+    letterSpacing: 1,
 
     text: 'Hello',
 
     fontRequested: false,
-    fontLoaded: false
+    fontLoaded: false,
+
+    textShadowX: 0,
+    textShadowY: 0
   };
 
   onLoading = () => {
@@ -63,11 +69,18 @@ class App extends React.Component {
     });
   }
 
+  onLockChange = locked => {
+    this.setState({ locked });
+  }
+
   render() {
-    const { font, loading, size, text, align, lineHeight } = this.state;
+    const { font, loading, size, text, align, lineHeight, letterSpacing, locked, textShadowX, textShadowY } = this.state;
 
     const cls = classNames(
-      'app'
+      'app',
+      {
+        'app--locked': locked
+      }
     );
 
     return (
@@ -85,6 +98,11 @@ class App extends React.Component {
           onLoading={this.onLoading}
           onLoaded={this.onLoaded}/>
 
+        <Locker
+          className="app__lock"
+          locked={locked}
+          onChange={this.onLockChange}/>
+
         <nav>
           
           <label>
@@ -95,12 +113,12 @@ class App extends React.Component {
               value={text}/>
           </label>
           
-          <label>
+          <div>
             <span>Font</span>
             <FontChooser
               loading={loading}
               onChoose={this.onChoose}/>
-          </label>
+          </div>
           
           <label>
             <span>Size</span>
@@ -133,12 +151,45 @@ class App extends React.Component {
               min={0}
               step={0.1}/>
           </label>
+          
+          <label>
+            <span>Letter Spacing</span>
+            <input
+              type="number"
+              name="letterSpacing"
+              onChange={this.onPropertyChange}
+              value={letterSpacing}
+              step={1}/>
+          </label>
+          
+          <label>
+            <span>Text Shadow X</span>
+            <input
+              type="number"
+              name="textShadowX"
+              onChange={this.onPropertyChange}
+              value={textShadowX}
+              step={1}/>
+          </label>
+          
+          <label>
+            <span>Text Shadow Y</span>
+            <input
+              type="number"
+              name="textShadowY"
+              onChange={this.onPropertyChange}
+              value={textShadowY}
+              step={1}/>
+          </label>
         </nav>
 
         <main>
           <WordDisplay
             align={align}
             lineHeight={lineHeight}
+            letterSpacing={letterSpacing}
+            textShadowX={textShadowX}
+            textShadowY={textShadowY}
             text={text}
             font={font}
             size={size}/>

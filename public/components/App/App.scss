@@ -8,8 +8,17 @@
 
   display: flex;
 
+  &--locked {
+    pointer-events: none;
+
+    nav {
+      display: none;
+    }
+  }
+
   nav {
-    flex-basis: rem(150px);
+    flex-basis: rem(200px);
+    flex-shrink: 0;
 
     padding: rem(20px);
 
@@ -45,5 +54,14 @@
     flex-grow: 1;
 
     overflow: auto;
+  }
+
+  &__lock {
+    position: absolute;
+
+    top: rem(0px);
+    right: rem(0px);
+
+    padding: rem(5px);
   }
 }
